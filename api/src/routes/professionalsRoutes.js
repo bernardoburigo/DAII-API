@@ -22,19 +22,7 @@ function professionalsWrite(data) { //escreve novos dados no arquivo JSON dos pr
     }
 }
 
-router.get('/', (req, res) => { //método GET que lista todos os registros
-    professionalsLoad();
-    res.json(professionalsData);
-});
-
-router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
-    professionalsLoad();
-    const professional = professionalsData.find(professional => professional.id === req.params.id);
-    if (!professional) return res.status(404).send('Nenhum profissional encontrado com o ID informado.');
-    res.json(professional);
-});
-
-router.get('/:name', (req, res) => { // método GET por nome
+router.get('/', (req, res) => { // Método GET que lista todos os registros ou filtra por nome
     professionalsLoad();
     const { name } = req.query;
     let professionalsFilter = professionalsData;
@@ -44,13 +32,20 @@ router.get('/:name', (req, res) => { // método GET por nome
     }
 
     if (professionalsFilter.length === 0) {
-        return res.status(404).send('Nenhum profissional encontrado com os critérios fornecidos.');
+        return res.status(404).send('Nenhuma consulta encontrada com os critérios fornecidos.');
     }
 
     res.json(professionalsFilter);
 });
 
-router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
+router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
+    professionalsLoad();
+    const professional = professionalsData.find(professional => professional.id === req.params.id);
+    if (!professional) return res.status(404).send('Nenhum profissional encontrado com o ID informado.');
+    res.json(professional);
+});
+
+router.put('/:id', (req, res) => { //método PUT (Upname) que atualiza um registro especificado por ID
     professionalsLoad();
     const index = professionalsData.findIndex(professional => professional.id === req.params.id);
     if (index === -1) return res.status(404).send('Nenhum profissional encontrado com o ID informado.');

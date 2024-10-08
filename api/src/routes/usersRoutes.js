@@ -22,19 +22,7 @@ function usersWrite(data) { //escreve novos dados no arquivo JSON dos usuários
     }
 }
 
-router.get('/', (req, res) => { //método GET que lista todos os registros
-    usersLoad();
-    res.json(usersData);
-});
-
-router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
-    usersLoad();
-    const user = usersData.find(user => user.id === req.params.id);
-    if (!user) return res.status(404).send('Nenhum usuário encontrado com o ID informado.');
-    res.json(user);
-});
-
-router.get('/:name', (req, res) => { // método GET por nome
+router.get('/', (req, res) => { // Método GET que lista todos os registros ou filtra por nome
     usersLoad();
     const { name } = req.query;
     let usersFilter = usersData;
@@ -44,10 +32,17 @@ router.get('/:name', (req, res) => { // método GET por nome
     }
 
     if (usersFilter.length === 0) {
-        return res.status(404).send('Nenhum usuário encontrado com os critérios fornecidos.');
+        return res.status(404).send('Nenhuma consulta encontrada com os critérios fornecidos.');
     }
 
     res.json(usersFilter);
+});
+
+router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
+    usersLoad();
+    const user = usersData.find(user => user.id === req.params.id);
+    if (!user) return res.status(404).send('Nenhum usuário encontrado com o ID informado.');
+    res.json(user);
 });
 
 router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID

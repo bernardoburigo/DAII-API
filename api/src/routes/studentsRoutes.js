@@ -22,19 +22,7 @@ function studentsWrite(data) { //escreve novos dados no arquivo JSON dos estudan
     }
 }
 
-router.get('/', (req, res) => { //método GET que lista todos os registros
-    studentsLoad();
-    res.json(studentsData);
-});
-
-router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
-    studentsLoad();
-    const student = studentsData.find(student => student.id === req.params.id);
-    if (!student) return res.status(404).send('Nenhum estudante encontrado com o ID informado.');
-    res.json(student);
-});
-
-router.get('/:name', (req, res) => { // método GET por nome
+router.get('/', (req, res) => { // Método GET que lista todos os registros ou filtra por nome
     studentsLoad();
     const { name } = req.query;
     let studentsFilter = studentsData;
@@ -44,10 +32,17 @@ router.get('/:name', (req, res) => { // método GET por nome
     }
 
     if (studentsFilter.length === 0) {
-        return res.status(404).send('Nenhum estudante encontrado com os critérios fornecidos.');
+        return res.status(404).send('Nenhuma consulta encontrada com os critérios fornecidos.');
     }
 
     res.json(studentsFilter);
+});
+
+router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
+    studentsLoad();
+    const student = studentsData.find(student => student.id === req.params.id);
+    if (!student) return res.status(404).send('Nenhum estudante encontrado com o ID informado.');
+    res.json(student);
 });
 
 router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID

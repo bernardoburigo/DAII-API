@@ -22,19 +22,7 @@ function teachersWrite(data) { //escreve novos dados no arquivo JSON dos profess
     }
 }
 
-router.get('/', (req, res) => { //método GET que lista todos os registros
-    teachersLoad();
-    res.json(teachersData);
-});
-
-router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
-    teachersLoad();
-    const teacher = teachersData.find(teacher => teacher.id === req.params.id);
-    if (!teacher) return res.status(404).send('Nenhum professor encontrado com o ID informado.');
-    res.json(teacher);
-});
-
-router.get('/:name', (req, res) => { // método GET por nome
+router.get('/', (req, res) => { // Método GET que lista todos os registros ou filtra por nome
     teachersLoad();
     const { name } = req.query;
     let teachersFilter = teachersData;
@@ -44,10 +32,17 @@ router.get('/:name', (req, res) => { // método GET por nome
     }
 
     if (teachersFilter.length === 0) {
-        return res.status(404).send('Nenhum professor encontrado com os critérios fornecidos.');
+        return res.status(404).send('Nenhuma consulta encontrada com os critérios fornecidos.');
     }
 
     res.json(teachersFilter);
+});
+
+router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
+    teachersLoad();
+    const teacher = teachersData.find(teacher => teacher.id === req.params.id);
+    if (!teacher) return res.status(404).send('Nenhum professor encontrado com o ID informado.');
+    res.json(teacher);
 });
 
 router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID

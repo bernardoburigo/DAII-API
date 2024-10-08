@@ -22,19 +22,7 @@ function eventsWrite(data) { //escreve novos dados no arquivo JSON dos eventos
     }
 }
 
-router.get('/', (req, res) => { //método GET que lista todos os registros
-    eventsLoad();
-    res.json(eventsData);
-});
-
-router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
-    eventsLoad();
-    const event = eventsData.find(event => event.id === req.params.id);
-    if (!event) return res.status(404).send('Nenhum evento encontrado com o ID informado.');
-    res.json(event);
-});
-
-router.get('/:date', (req, res) => { // método GET por data
+router.get('/', (req, res) => { // Método GET que lista todos os registros ou filtra por data
     eventsLoad();
     const { date } = req.query;
     let eventsFilter = eventsData;
@@ -44,10 +32,17 @@ router.get('/:date', (req, res) => { // método GET por data
     }
 
     if (eventsFilter.length === 0) {
-        return res.status(404).send('Nenhum evento encontrado com os critérios fornecidos.');
+        return res.status(404).send('Nenhuma consulta encontrada com os critérios fornecidos.');
     }
 
     res.json(eventsFilter);
+});
+
+router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
+    eventsLoad();
+    const event = eventsData.find(event => event.id === req.params.id);
+    if (!event) return res.status(404).send('Nenhum evento encontrado com o ID informado.');
+    res.json(event);
 });
 
 router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID

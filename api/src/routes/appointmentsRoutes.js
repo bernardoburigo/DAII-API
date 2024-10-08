@@ -22,19 +22,7 @@ function appointmentsWrite(data) { //escreve novos dados no arquivo JSON das con
     }
 }
 
-router.get('/', (req, res) => { //método GET que lista todos os registros
-    appointmentsLoad();
-    res.json(appointmentsData);
-});
-
-router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
-    appointmentsLoad();
-    const appointment = appointmentsData.find(appointment => appointment.id === req.params.id);
-    if (!appointment) return res.status(404).send('Nenhuma consulta encontrada com o ID informado.');
-    res.json(appointment);
-});
-
-router.get('/:date', (req, res) => { // método GET por data
+router.get('/', (req, res) => { // Método GET que lista todos os registros ou filtra por data
     appointmentsLoad();
     const { date } = req.query;
     let appointmentsFilter = appointmentsData;
@@ -48,6 +36,13 @@ router.get('/:date', (req, res) => { // método GET por data
     }
 
     res.json(appointmentsFilter);
+});
+
+router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
+    appointmentsLoad();
+    const appointment = appointmentsData.find(appointment => appointment.id === req.params.id);
+    if (!appointment) return res.status(404).send('Nenhuma consulta encontrada com o ID informado.');
+    res.json(appointment);
 });
 
 router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
