@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
-let eventsData = require('../db/events.json');
+let eventsData = require('./src/db/events.json');
 
 function eventsLoad() { //carrega os dados dos eventos pelo arquivo JSON
     try {
@@ -72,7 +72,7 @@ router.delete('/:id', (req, res) => { // método DELETE que deleta um registro e
 
     eventsData.splice(index, 1);
     eventsWrite(eventsData);
-    res.status(204).send({ message: 'Evento removido com sucesso!' });
+    res.status(200).send({ message: 'Evento removido com sucesso!' });
 });
 
 module.exports = router;

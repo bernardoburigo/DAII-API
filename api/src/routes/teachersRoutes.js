@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
-let teachersData = require('../db/teachers.json');
+let teachersData = require('./src/db/teachers.json');
 
 function teachersLoad() { //carrega os dados dos professores pelo arquivo JSON
     try {
@@ -72,7 +72,7 @@ router.delete('/:id', (req, res) => { // método DELETE que deleta um registro e
 
     teachersData.splice(index, 1);
     teachersWrite(teachersData);
-    res.status(204).send({ message: 'Professor removido com sucesso!' });
+    res.status(200).send({ message: 'Professor removido com sucesso!' });
 });
 
 module.exports = router;
