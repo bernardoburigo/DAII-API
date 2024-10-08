@@ -34,7 +34,7 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
     res.json(student);
 });
 
-router.get('/', (req, res) => { // método GET por nome
+router.get('/:name', (req, res) => { // método GET por nome
     studentsLoad();
     const { name } = req.query;
     let studentsFilter = studentsData;
@@ -50,7 +50,7 @@ router.get('/', (req, res) => { // método GET por nome
     res.json(studentsFilter);
 });
 
-router.update('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
+router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
     studentsLoad();
     const index = studentsData.findIndex(student => student.id === req.params.id);
     if (index === -1) return res.status(404).send('Nenhum estudante encontrado com o ID informado.');

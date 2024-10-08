@@ -34,7 +34,7 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
     res.json(appointment);
 });
 
-router.get('/', (req, res) => { // método GET por data
+router.get('/:date', (req, res) => { // método GET por data
     appointmentsLoad();
     const { date } = req.query;
     let appointmentsFilter = appointmentsData;
@@ -50,7 +50,7 @@ router.get('/', (req, res) => { // método GET por data
     res.json(appointmentsFilter);
 });
 
-router.update('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
+router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
     appointmentsLoad();
     const index = appointmentsData.findIndex(appointment => appointment.id === req.params.id);
     if (index === -1) return res.status(404).send('Nenhuma consulta encontrada com o ID informado.');

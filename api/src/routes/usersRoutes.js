@@ -34,7 +34,7 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
     res.json(user);
 });
 
-router.get('/', (req, res) => { // método GET por nome
+router.get('/:name', (req, res) => { // método GET por nome
     usersLoad();
     const { name } = req.query;
     let usersFilter = usersData;
@@ -50,7 +50,7 @@ router.get('/', (req, res) => { // método GET por nome
     res.json(usersFilter);
 });
 
-router.update('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
+router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
     usersLoad();
     const index = usersData.findIndex(user => user.id === req.params.id);
     if (index === -1) return res.status(404).send('Nenhum usuário encontrado com o ID informado.');

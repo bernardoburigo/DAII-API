@@ -34,7 +34,7 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
     res.json(event);
 });
 
-router.get('/', (req, res) => { // método GET por data
+router.get('/:date', (req, res) => { // método GET por data
     eventsLoad();
     const { date } = req.query;
     let eventsFilter = eventsData;
@@ -50,7 +50,7 @@ router.get('/', (req, res) => { // método GET por data
     res.json(eventsFilter);
 });
 
-router.update('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
+router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
     eventsLoad();
     const index = eventsData.findIndex(event => event.id === req.params.id);
     if (index === -1) return res.status(404).send('Nenhum evento encontrado com o ID informado.');

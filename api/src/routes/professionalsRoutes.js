@@ -34,7 +34,7 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
     res.json(professional);
 });
 
-router.get('/', (req, res) => { // método GET por nome
+router.get('/:name', (req, res) => { // método GET por nome
     professionalsLoad();
     const { name } = req.query;
     let professionalsFilter = professionalsData;
@@ -50,7 +50,7 @@ router.get('/', (req, res) => { // método GET por nome
     res.json(professionalsFilter);
 });
 
-router.update('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
+router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
     professionalsLoad();
     const index = professionalsData.findIndex(professional => professional.id === req.params.id);
     if (index === -1) return res.status(404).send('Nenhum profissional encontrado com o ID informado.');
