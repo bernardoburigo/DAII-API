@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
-let teachersData = require('../DB/teachers.json');
+let teachersData = require('../db/teachers.json');
 
 function teachersLoad() { //carrega os dados dos professores pelo arquivo JSON
     try {
-        teachersData = JSON.parse(fs.readFileSync('./src/DB/teachers.json', 'utf8'));
+        teachersData = JSON.parse(fs.readFileSync('./src/db/teachers.json', 'utf8'));
         console.log('Dados dos professores carregados com sucesso.');
     } catch (err) {
         console.log('Erro ao carregar os dados dos professores:', err);
@@ -15,7 +15,7 @@ function teachersLoad() { //carrega os dados dos professores pelo arquivo JSON
 
 function teachersWrite(data) { //escreve novos dados no arquivo JSON dos professores
     try {
-        fs.writeFileSync('./src/DB/teachers.json', JSON.stringify(data, null, 2), 'utf8');
+        fs.writeFileSync('./src/db/teachers.json', JSON.stringify(data, null, 2), 'utf8');
         console.log('Dados dos professores escritos com sucesso.');
     } catch (err) {
         console.error('Não foi possível escrever os dados dos professores:', err);
@@ -29,7 +29,7 @@ router.get('/', (req, res) => { //método GET que lista todos os registros
 
 router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
     teachersLoad();
-    const teacher = teachersData.find(t => t.id === req.params.id);
+    const teacher = teachersData.find(teacher => teacher.id === req.params.id);
     if (!teacher) return res.status(404).send('Nenhum professor encontrado com o ID informado.');
     res.json(teacher);
 });
@@ -40,7 +40,7 @@ router.get('/', (req, res) => { // método GET por nome
     let teachersFilter = teachersData;
 
     if (name) {
-        teachersFilter = teachersFilter.filter(t => t.name.toLowerCase().includes(name.toLowerCase()));
+        teachersFilter = teachersFilter.filter(teacher => teacher.name.toLowerCase().includes(name.toLowerCase()));
     }
 
     if (teachersFilter.length === 0) {
@@ -52,7 +52,7 @@ router.get('/', (req, res) => { // método GET por nome
 
 router.update('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
     teachersLoad();
-    const index = teachersData.findIndex(t => t.id === req.params.id);
+    const index = teachersData.findIndex(teacher => teacher.id === req.params.id);
     if (index === -1) return res.status(404).send('Nenhum professor encontrado com o ID informado.');
 
     teachersData[index] = { ...teachersData[index], ...req.body };
@@ -72,7 +72,7 @@ router.post('/', (req, res) => { // método POST que cadastra um novo registro
 
 router.delete('/:id', (req, res) => { // método DELETE que deleta um registro especificado por ID
     teachersLoad();
-    const index = teachersData.findIndex(t => t.id === req.params.id);
+    const index = teachersData.findIndex(teacher => teacher.id === req.params.id);
     if (index === -1) return res.status(404).send('Nenhum professor encontrado com o ID informado.');
 
     teachersData.splice(index, 1);
