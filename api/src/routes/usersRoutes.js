@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
-let usersData = require('./src/db/users.json');
+let usersData = require('../db/users.json');
 
 function usersLoad() { //carrega os dados dos usuários pelo arquivo JSON
     try {
@@ -27,7 +27,7 @@ function usersWrite(data) { //escreve novos dados no arquivo JSON dos usuários
  * /users:
  *   get:
  *     summary: Retorna a lista de todos os usuários
- *     tags: [User]
+ *     tags: [user]
  *     parameters:
  *       - in: query
  *         name: name
@@ -42,7 +42,7 @@ function usersWrite(data) { //escreve novos dados no arquivo JSON dos usuários
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/User'
+ *                 $ref: '#/components/schemas/user'
  *       404:
  *         description: Nenhuma consulta encontrada com os critérios fornecidos
  */
@@ -68,7 +68,7 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
  * /users/{id}:
  *   get:
  *     summary: Retorna um usuário específico pelo ID
- *     tags: [User]
+ *     tags: [user]
  *     parameters:
  *       - in: path
  *         name: id
@@ -82,7 +82,7 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               $ref: '#/components/schemas/user'
  *       404:
  *         description: Nenhum usuário encontrado com o ID informado
  */
@@ -99,7 +99,7 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
  * /users/{id}:
  *   put:
  *     summary: Atualiza um usuário pelo ID
- *     tags: [User]
+ *     tags: [user]
  *     parameters:
  *       - in: path
  *         name: id
@@ -112,14 +112,14 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             $ref: '#/components/schemas/user'
  *     responses:
  *       200:
  *         description: Usuário atualizado com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               $ref: '#/components/schemas/user'
  *       404:
  *         description: Nenhum usuário encontrado com o ID informado
  */
@@ -139,20 +139,20 @@ router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um regist
  * /users:
  *   post:
  *     summary: Cria um novo usuário
- *     tags: [User]
+ *     tags: [user]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             $ref: '#/components/schemas/user'
  *     responses:
  *       201:
  *         description: Usuário adicionado com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               $ref: '#/components/schemas/user'
  */
 
 router.post('/', (req, res) => { // método POST que cadastra um novo registro
@@ -170,7 +170,7 @@ router.post('/', (req, res) => { // método POST que cadastra um novo registro
  * /users/{id}:
  *   delete:
  *     summary: Remove um usuário pelo ID
- *     tags: [User]
+ *     tags: [user]
  *     parameters:
  *       - in: path
  *         name: id

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
-let appointmentsData = require('./src/db/appointments.json');
+let appointmentsData = require('../db/appointments.json');
 
 function appointmentsLoad() { //carrega os dados das consultas pelo arquivo JSON
     try {
@@ -27,7 +27,7 @@ function appointmentsWrite(data) { //escreve novos dados no arquivo JSON das con
  * /appointments:
  *   get:
  *     summary: Retorna a lista de todas as consultas
- *     tags: [Appointment]
+ *     tags: [appointment]
  *     parameters:
  *       - in: query
  *         name: date
@@ -42,7 +42,7 @@ function appointmentsWrite(data) { //escreve novos dados no arquivo JSON das con
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Appointment'
+ *                 $ref: '#/components/schemas/appointment'
  *       404:
  *         description: Nenhuma consulta encontrada com os critérios fornecidos
  */
@@ -68,7 +68,7 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
  * /appointments/{id}:
  *   get:
  *     summary: Retorna uma consulta específica pelo ID
- *     tags: [Appointment]
+ *     tags: [appointment]
  *     parameters:
  *       - in: path
  *         name: id
@@ -82,7 +82,7 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Appointment'
+ *               $ref: '#/components/schemas/appointment'
  *       404:
  *         description: Nenhuma consulta encontrada com o ID informado
  */
@@ -99,7 +99,7 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
  * /appointments/{id}:
  *   put:
  *     summary: Atualiza uma consulta pelo ID
- *     tags: [Appointment]
+ *     tags: [appointment]
  *     parameters:
  *       - in: path
  *         name: id
@@ -112,14 +112,14 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Appointment'
+ *             $ref: '#/components/schemas/appointment'
  *     responses:
  *       200:
  *         description: Consulta atualizada com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Appointment'
+ *               $ref: '#/components/schemas/appointment'
  *       404:
  *         description: Nenhuma consulta encontrada com o ID informado
  */
@@ -139,20 +139,20 @@ router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um regist
  * /appointments:
  *   post:
  *     summary: Cria uma nova consulta
- *     tags: [Appointment]
+ *     tags: [appointment]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Appointment'
+ *             $ref: '#/components/schemas/appointment'
  *     responses:
  *       201:
  *         description: Consulta adicionada com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Appointment'
+ *               $ref: '#/components/schemas/appointment'
  */
 
 router.post('/', (req, res) => { // método POST que cadastra um novo registro
@@ -170,7 +170,7 @@ router.post('/', (req, res) => { // método POST que cadastra um novo registro
  * /appointments/{id}:
  *   delete:
  *     summary: Remove uma consulta pelo ID
- *     tags: [Appointment]
+ *     tags: [appointment]
  *     parameters:
  *       - in: path
  *         name: id

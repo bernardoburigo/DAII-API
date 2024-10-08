@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
-let teachersData = require('./src/db/teachers.json');
+let teachersData = require('../db/teachers.json');
 
 function teachersLoad() { //carrega os dados dos professores pelo arquivo JSON
     try {
@@ -27,7 +27,7 @@ function teachersWrite(data) { //escreve novos dados no arquivo JSON dos profess
  * /teachers:
  *   get:
  *     summary: Retorna a lista de todos os professores
- *     tags: [Teacher]
+ *     tags: [teacher]
  *     parameters:
  *       - in: query
  *         name: name
@@ -42,7 +42,7 @@ function teachersWrite(data) { //escreve novos dados no arquivo JSON dos profess
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Teacher'
+ *                 $ref: '#/components/schemas/teacher'
  *       404:
  *         description: Nenhuma consulta encontrada com os critérios fornecidos
  */
@@ -69,7 +69,7 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
  * /teachers/{id}:
  *   get:
  *     summary: Retorna um professor específico pelo ID
- *     tags: [Teacher]
+ *     tags: [teacher]
  *     parameters:
  *       - in: path
  *         name: id
@@ -83,7 +83,7 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Teacher'
+ *               $ref: '#/components/schemas/teacher'
  *       404:
  *         description: Nenhum professor encontrado com o ID informado
  */
@@ -100,7 +100,7 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
  * /teachers/{id}:
  *   put:
  *     summary: Atualiza um professor pelo ID
- *     tags: [Teacher]
+ *     tags: [teacher]
  *     parameters:
  *       - in: path
  *         name: id
@@ -113,14 +113,14 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Teacher'
+ *             $ref: '#/components/schemas/teacher'
  *     responses:
  *       200:
  *         description: Professor atualizado com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Teacher'
+ *               $ref: '#/components/schemas/teacher'
  *       404:
  *         description: Nenhum professor encontrado com o ID informado
  */
@@ -140,20 +140,20 @@ router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um regist
  * /teachers:
  *   post:
  *     summary: Cria um novo professor
- *     tags: [Teacher]
+ *     tags: [teacher]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Teacher'
+ *             $ref: '#/components/schemas/teacher'
  *     responses:
  *       201:
  *         description: Professor adicionado com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Teacher'
+ *               $ref: '#/components/schemas/teacher'
  */
 
 router.post('/', (req, res) => { // método POST que cadastra um novo registro
@@ -171,7 +171,7 @@ router.post('/', (req, res) => { // método POST que cadastra um novo registro
  * /teachers/{id}:
  *   delete:
  *     summary: Remove um professor pelo ID
- *     tags: [Teacher]
+ *     tags: [teacher]
  *     parameters:
  *       - in: path
  *         name: id

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
-let studentsData = require('./src/db/students.json');
+let studentsData = require('../db/students.json');
 
 function studentsLoad() { //carrega os dados dos estudantes pelo arquivo JSON
     try {
@@ -27,7 +27,7 @@ function studentsWrite(data) { //escreve novos dados no arquivo JSON dos estudan
  * /students:
  *   get:
  *     summary: Retorna a lista de todos os estudantes
- *     tags: [Student]
+ *     tags: [student]
  *     parameters:
  *       - in: query
  *         name: name
@@ -42,7 +42,7 @@ function studentsWrite(data) { //escreve novos dados no arquivo JSON dos estudan
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Student'
+ *                 $ref: '#/components/schemas/student'
  *       404:
  *         description: Nenhuma consulta encontrada com os critérios fornecidos
  */
@@ -68,7 +68,7 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
  * /students/{id}:
  *   get:
  *     summary: Retorna um estudante específico pelo ID
- *     tags: [Student]
+ *     tags: [student]
  *     parameters:
  *       - in: path
  *         name: id
@@ -82,7 +82,7 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Student'
+ *               $ref: '#/components/schemas/student'
  *       404:
  *         description: Nenhum estudante encontrado com o ID informado
  */
@@ -99,7 +99,7 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
  * /students/{id}:
  *   put:
  *     summary: Atualiza um estudante pelo ID
- *     tags: [Student]
+ *     tags: [student]
  *     parameters:
  *       - in: path
  *         name: id
@@ -112,14 +112,14 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Student'
+ *             $ref: '#/components/schemas/student'
  *     responses:
  *       200:
  *         description: Estudante atualizado com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Student'
+ *               $ref: '#/components/schemas/student'
  *       404:
  *         description: Nenhum estudante encontrado com o ID informado
  */
@@ -139,20 +139,20 @@ router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um regist
  * /students:
  *   post:
  *     summary: Cria um novo estudante
- *     tags: [Student]
+ *     tags: [student]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Student'
+ *             $ref: '#/components/schemas/student'
  *     responses:
  *       201:
  *         description: Estudante adicionado com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Student'
+ *               $ref: '#/components/schemas/student'
  */
 
 router.post('/', (req, res) => { // método POST que cadastra um novo registro
@@ -170,7 +170,7 @@ router.post('/', (req, res) => { // método POST que cadastra um novo registro
  * /students/{id}:
  *   delete:
  *     summary: Remove um estudante pelo ID
- *     tags: [Student]
+ *     tags: [student]
  *     parameters:
  *       - in: path
  *         name: id

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
-let eventsData = require('./src/db/events.json');
+let eventsData = require('../db/events.json');
 
 function eventsLoad() { //carrega os dados dos eventos pelo arquivo JSON
     try {
@@ -27,7 +27,7 @@ function eventsWrite(data) { //escreve novos dados no arquivo JSON dos eventos
  * /events:
  *   get:
  *     summary: Retorna a lista de todos os eventos
- *     tags: [Event]
+ *     tags: [event]
  *     parameters:
  *       - in: query
  *         name: date
@@ -42,7 +42,7 @@ function eventsWrite(data) { //escreve novos dados no arquivo JSON dos eventos
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Event'
+ *                 $ref: '#/components/schemas/event'
  *       404:
  *         description: Nenhuma consulta encontrada com os critérios fornecidos
  */
@@ -68,7 +68,7 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
  * /events/{id}:
  *   get:
  *     summary: Retorna um evento específico pelo ID
- *     tags: [Event]
+ *     tags: [event]
  *     parameters:
  *       - in: path
  *         name: id
@@ -82,7 +82,7 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Event'
+ *               $ref: '#/components/schemas/event'
  *       404:
  *         description: Nenhum evento encontrado com o ID informado
  */
@@ -99,7 +99,7 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
  * /events/{id}:
  *   put:
  *     summary: Atualiza um evento pelo ID
- *     tags: [Event]
+ *     tags: [event]
  *     parameters:
  *       - in: path
  *         name: id
@@ -112,14 +112,14 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Event'
+ *             $ref: '#/components/schemas/event'
  *     responses:
  *       200:
- *         description: Evento atualizado com sucesso
+ *         description: evento atualizado com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Event'
+ *               $ref: '#/components/schemas/event'
  *       404:
  *         description: Nenhum evento encontrado com o ID informado
  */
@@ -131,7 +131,7 @@ router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um regist
 
     eventsData[index] = { ...eventsData[index], ...req.body };
     eventsWrite(eventsData);
-    res.json({ message: 'Evento atualizado com sucesso!', event: eventsData[index] });
+    res.json({ message: 'evento atualizado com sucesso!', event: eventsData[index] });
 });
 
 /**
@@ -139,20 +139,20 @@ router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um regist
  * /events:
  *   post:
  *     summary: Cria um novo evento
- *     tags: [Event]
+ *     tags: [event]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Event'
+ *             $ref: '#/components/schemas/event'
  *     responses:
  *       201:
- *         description: Evento adicionado com sucesso
+ *         description: evento adicionado com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Event'
+ *               $ref: '#/components/schemas/event'
  */
 
 router.post('/', (req, res) => { // método POST que cadastra um novo registro
@@ -162,7 +162,7 @@ router.post('/', (req, res) => { // método POST que cadastra um novo registro
     const eventWithId = { id, ...event };
     eventsData.push(eventWithId);
     eventsWrite(eventsData);
-    res.status(201).json({ message: 'Evento adicionado com sucesso!', event: eventWithId });
+    res.status(201).json({ message: 'evento adicionado com sucesso!', event: eventWithId });
 });
 
 /**
@@ -170,7 +170,7 @@ router.post('/', (req, res) => { // método POST que cadastra um novo registro
  * /events/{id}:
  *   delete:
  *     summary: Remove um evento pelo ID
- *     tags: [Event]
+ *     tags: [event]
  *     parameters:
  *       - in: path
  *         name: id
@@ -180,7 +180,7 @@ router.post('/', (req, res) => { // método POST que cadastra um novo registro
  *         description: ID do evento
  *     responses:
  *       200:
- *         description: Evento removido com sucesso
+ *         description: evento removido com sucesso
  *       404:
  *         description: Nenhum evento encontrado com o ID informado
  */
@@ -192,7 +192,7 @@ router.delete('/:id', (req, res) => { // método DELETE que deleta um registro e
 
     eventsData.splice(index, 1);
     eventsWrite(eventsData);
-    res.status(200).send({ message: 'Evento removido com sucesso!' });
+    res.status(200).send({ message: 'evento removido com sucesso!' });
 });
 
 module.exports = router;

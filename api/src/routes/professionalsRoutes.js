@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
-let professionalsData = require('./src/db/professionals.json');
+let professionalsData = require('../db/professionals.json');
 
 function professionalsLoad() { //carrega os dados dos profissionais pelo arquivo JSON
     try {
@@ -27,7 +27,7 @@ function professionalsWrite(data) { //escreve novos dados no arquivo JSON dos pr
  * /professionals:
  *   get:
  *     summary: Retorna a lista de todos os profissionais
- *     tags: [Professional]
+ *     tags: [professional]
  *     parameters:
  *       - in: query
  *         name: name
@@ -42,7 +42,7 @@ function professionalsWrite(data) { //escreve novos dados no arquivo JSON dos pr
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Professional'
+ *                 $ref: '#/components/schemas/professional'
  *       404:
  *         description: Nenhuma consulta encontrada com os critérios fornecidos
  */
@@ -68,7 +68,7 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
  * /professionals/{id}:
  *   get:
  *     summary: Retorna um profissional específico pelo ID
- *     tags: [Professional]
+ *     tags: [professional]
  *     parameters:
  *       - in: path
  *         name: id
@@ -82,7 +82,7 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Professional'
+ *               $ref: '#/components/schemas/professional'
  *       404:
  *         description: Nenhum profissional encontrado com o ID informado
  */
@@ -99,7 +99,7 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
  * /professionals/{id}:
  *   put:
  *     summary: Atualiza um profissional pelo ID
- *     tags: [Professional]
+ *     tags: [professional]
  *     parameters:
  *       - in: path
  *         name: id
@@ -112,14 +112,14 @@ router.get('/:id', (req, res) => { //método GET por ID que lista apenas um regi
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Professional'
+ *             $ref: '#/components/schemas/professional'
  *     responses:
  *       200:
  *         description: Profissional atualizado com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Professional'
+ *               $ref: '#/components/schemas/professional'
  *       404:
  *         description: Nenhum profissional encontrado com o ID informado
  */
@@ -139,20 +139,20 @@ router.put('/:id', (req, res) => { //método PUT (Upname) que atualiza um regist
  * /professionals:
  *   post:
  *     summary: Cria um novo profissional
- *     tags: [Professional]
+ *     tags: [professional]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Professional'
+ *             $ref: '#/components/schemas/professional'
  *     responses:
  *       201:
  *         description: Profissional adicionado com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Professional'
+ *               $ref: '#/components/schemas/professional'
  */
 
 router.post('/', (req, res) => { // método POST que cadastra um novo registro
@@ -170,7 +170,7 @@ router.post('/', (req, res) => { // método POST que cadastra um novo registro
  * /professionals/{id}:
  *   delete:
  *     summary: Remove um profissional pelo ID
- *     tags: [Professional]
+ *     tags: [professional]
  *     parameters:
  *       - in: path
  *         name: id
