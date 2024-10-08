@@ -8,7 +8,7 @@ let teachersData = require('../db/teachers.json');
  * @swagger
  * components:
  *   schemas:
- *     User:
+ *     teacher:
  *       type: object
  *       required:
  *         - name

@@ -8,7 +8,7 @@ let appointmentsData = require('../db/appointments.json');
  * @swagger
  * components:
  *   schemas:
- *     User:
+ *     appointment:
  *       type: object
  *       required:
  *         - date

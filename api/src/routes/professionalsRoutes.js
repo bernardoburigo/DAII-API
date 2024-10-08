@@ -8,7 +8,7 @@ let professionalsData = require('../db/professionals.json');
  * @swagger
  * components:
  *   schemas:
- *     User:
+ *     professional:
  *       type: object
  *       required:
  *         - name

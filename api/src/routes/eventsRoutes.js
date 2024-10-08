@@ -8,7 +8,7 @@ let eventsData = require('../db/events.json');
  * @swagger
  * components:
  *   schemas:
- *     User:
+ *     event:
  *       type: object
  *       required:
  *         - date

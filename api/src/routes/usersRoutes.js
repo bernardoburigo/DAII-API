@@ -8,7 +8,7 @@ let usersData = require('../db/users.json');
  * @swagger
  * components:
  *   schemas:
- *     User:
+ *     user:
  *       type: object
  *       required:
  *         - name
