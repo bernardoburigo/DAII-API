@@ -22,6 +22,31 @@ function professionalsWrite(data) { //escreve novos dados no arquivo JSON dos pr
     }
 }
 
+/**
+ * @swagger
+ * /professionals:
+ *   get:
+ *     summary: Retorna a lista de todos os profissionais
+ *     tags: [Professional]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: Nome para filtrar os profissionais
+ *     responses:
+ *       200:
+ *         description: A lista de profissionais
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Professional'
+ *       404:
+ *         description: Nenhuma consulta encontrada com os critérios fornecidos
+ */
+
 router.get('/', (req, res) => { // Método GET que lista todos os registros ou filtra por nome
     professionalsLoad();
     const { name } = req.query;
@@ -38,12 +63,66 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
     res.json(professionalsFilter);
 });
 
+/**
+ * @swagger
+ * /professionals/{id}:
+ *   get:
+ *     summary: Retorna um profissional específico pelo ID
+ *     tags: [Professional]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do profissional
+ *     responses:
+ *       200:
+ *         description: O profissional com o ID fornecido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Professional'
+ *       404:
+ *         description: Nenhum profissional encontrado com o ID informado
+ */
+
 router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
     professionalsLoad();
     const professional = professionalsData.find(professional => professional.id === req.params.id);
     if (!professional) return res.status(404).send('Nenhum profissional encontrado com o ID informado.');
     res.json(professional);
 });
+
+/**
+ * @swagger
+ * /professionals/{id}:
+ *   put:
+ *     summary: Atualiza um profissional pelo ID
+ *     tags: [Professional]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do profissional
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Professional'
+ *     responses:
+ *       200:
+ *         description: Profissional atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Professional'
+ *       404:
+ *         description: Nenhum profissional encontrado com o ID informado
+ */
 
 router.put('/:id', (req, res) => { //método PUT (Upname) que atualiza um registro especificado por ID
     professionalsLoad();
@@ -55,6 +134,27 @@ router.put('/:id', (req, res) => { //método PUT (Upname) que atualiza um regist
     res.json({ message: 'Profissional atualizado com sucesso!', professional: professionalsData[index] });
 });
 
+/**
+ * @swagger
+ * /professionals:
+ *   post:
+ *     summary: Cria um novo profissional
+ *     tags: [Professional]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Professional'
+ *     responses:
+ *       201:
+ *         description: Profissional adicionado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Professional'
+ */
+
 router.post('/', (req, res) => { // método POST que cadastra um novo registro
     professionalsLoad();
     const professional = req.body;
@@ -64,6 +164,26 @@ router.post('/', (req, res) => { // método POST que cadastra um novo registro
     professionalsWrite(professionalsData);
     res.status(201).json({ message: 'Profissional adicionado com sucesso!', professional: professionalWithId });
 });
+
+/**
+ * @swagger
+ * /professionals/{id}:
+ *   delete:
+ *     summary: Remove um profissional pelo ID
+ *     tags: [Professional]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do profissional
+ *     responses:
+ *       200:
+ *         description: Profissional removido com sucesso
+ *       404:
+ *         description: Nenhum profissional encontrado com o ID informado
+ */
 
 router.delete('/:id', (req, res) => { // método DELETE que deleta um registro especificado por ID
     professionalsLoad();

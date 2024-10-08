@@ -22,6 +22,31 @@ function usersWrite(data) { //escreve novos dados no arquivo JSON dos usuários
     }
 }
 
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Retorna a lista de todos os usuários
+ *     tags: [User]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: Nome para filtrar os usuários
+ *     responses:
+ *       200:
+ *         description: A lista de usuários
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Nenhuma consulta encontrada com os critérios fornecidos
+ */
+
 router.get('/', (req, res) => { // Método GET que lista todos os registros ou filtra por nome
     usersLoad();
     const { name } = req.query;
@@ -38,12 +63,66 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
     res.json(usersFilter);
 });
 
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     summary: Retorna um usuário específico pelo ID
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do usuário
+ *     responses:
+ *       200:
+ *         description: O usuário com o ID fornecido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Nenhum usuário encontrado com o ID informado
+ */
+
 router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
     usersLoad();
     const user = usersData.find(user => user.id === req.params.id);
     if (!user) return res.status(404).send('Nenhum usuário encontrado com o ID informado.');
     res.json(user);
 });
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   put:
+ *     summary: Atualiza um usuário pelo ID
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do usuário
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: Usuário atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Nenhum usuário encontrado com o ID informado
+ */
 
 router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
     usersLoad();
@@ -55,6 +134,27 @@ router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um regist
     res.json({ message: 'Usuário atualizado com sucesso!', user: usersData[index] });
 });
 
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Cria um novo usuário
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       201:
+ *         description: Usuário adicionado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ */
+
 router.post('/', (req, res) => { // método POST que cadastra um novo registro
     usersLoad();
     const user = req.body;
@@ -64,6 +164,26 @@ router.post('/', (req, res) => { // método POST que cadastra um novo registro
     usersWrite(usersData);
     res.status(201).json({ message: 'Usuário adicionado com sucesso!', user: userWithId });
 });
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   delete:
+ *     summary: Remove um usuário pelo ID
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do usuário
+ *     responses:
+ *       200:
+ *         description: Usuário removido com sucesso
+ *       404:
+ *         description: Nenhum usuário encontrado com o ID informado
+ */
 
 router.delete('/:id', (req, res) => { // método DELETE que deleta um registro especificado por ID
     usersLoad();

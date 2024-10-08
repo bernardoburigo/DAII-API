@@ -22,6 +22,32 @@ function teachersWrite(data) { //escreve novos dados no arquivo JSON dos profess
     }
 }
 
+/**
+ * @swagger
+ * /teachers:
+ *   get:
+ *     summary: Retorna a lista de todos os professores
+ *     tags: [Teacher]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: Nome para filtrar os professores
+ *     responses:
+ *       200:
+ *         description: A lista de professores
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Teacher'
+ *       404:
+ *         description: Nenhuma consulta encontrada com os critérios fornecidos
+ */
+
+
 router.get('/', (req, res) => { // Método GET que lista todos os registros ou filtra por nome
     teachersLoad();
     const { name } = req.query;
@@ -38,12 +64,66 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
     res.json(teachersFilter);
 });
 
+/**
+ * @swagger
+ * /teachers/{id}:
+ *   get:
+ *     summary: Retorna um professor específico pelo ID
+ *     tags: [Teacher]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do professor
+ *     responses:
+ *       200:
+ *         description: O professor com o ID fornecido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Teacher'
+ *       404:
+ *         description: Nenhum professor encontrado com o ID informado
+ */
+
 router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
     teachersLoad();
     const teacher = teachersData.find(teacher => teacher.id === req.params.id);
     if (!teacher) return res.status(404).send('Nenhum professor encontrado com o ID informado.');
     res.json(teacher);
 });
+
+/**
+ * @swagger
+ * /teachers/{id}:
+ *   put:
+ *     summary: Atualiza um professor pelo ID
+ *     tags: [Teacher]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do professor
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Teacher'
+ *     responses:
+ *       200:
+ *         description: Professor atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Teacher'
+ *       404:
+ *         description: Nenhum professor encontrado com o ID informado
+ */
 
 router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
     teachersLoad();
@@ -55,6 +135,27 @@ router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um regist
     res.json({ message: 'Professor atualizado com sucesso!', teacher: teachersData[index] });
 });
 
+/**
+ * @swagger
+ * /teachers:
+ *   post:
+ *     summary: Cria um novo professor
+ *     tags: [Teacher]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Teacher'
+ *     responses:
+ *       201:
+ *         description: Professor adicionado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Teacher'
+ */
+
 router.post('/', (req, res) => { // método POST que cadastra um novo registro
     teachersLoad();
     const teacher = req.body;
@@ -64,6 +165,26 @@ router.post('/', (req, res) => { // método POST que cadastra um novo registro
     teachersWrite(teachersData);
     res.status(201).json({ message: 'Professor adicionado com sucesso!', teacher: teacherWithId });
 });
+
+/**
+ * @swagger
+ * /teachers/{id}:
+ *   delete:
+ *     summary: Remove um professor pelo ID
+ *     tags: [Teacher]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do professor
+ *     responses:
+ *       200:
+ *         description: Professor removido com sucesso
+ *       404:
+ *         description: Nenhum professor encontrado com o ID informado
+ */
 
 router.delete('/:id', (req, res) => { // método DELETE que deleta um registro especificado por ID
     teachersLoad();

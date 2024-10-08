@@ -22,6 +22,31 @@ function appointmentsWrite(data) { //escreve novos dados no arquivo JSON das con
     }
 }
 
+/**
+ * @swagger
+ * /appointments:
+ *   get:
+ *     summary: Retorna a lista de todas as consultas
+ *     tags: [Appointment]
+ *     parameters:
+ *       - in: query
+ *         name: date
+ *         schema:
+ *           type: string
+ *         description: Data para filtrar as consultas
+ *     responses:
+ *       200:
+ *         description: A lista de consultas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Appointment'
+ *       404:
+ *         description: Nenhuma consulta encontrada com os critérios fornecidos
+ */
+
 router.get('/', (req, res) => { // Método GET que lista todos os registros ou filtra por data
     appointmentsLoad();
     const { date } = req.query;
@@ -38,12 +63,66 @@ router.get('/', (req, res) => { // Método GET que lista todos os registros ou f
     res.json(appointmentsFilter);
 });
 
+/**
+ * @swagger
+ * /appointments/{id}:
+ *   get:
+ *     summary: Retorna uma consulta específica pelo ID
+ *     tags: [Appointment]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID da consulta
+ *     responses:
+ *       200:
+ *         description: A consulta com o ID fornecido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Appointment'
+ *       404:
+ *         description: Nenhuma consulta encontrada com o ID informado
+ */
+
 router.get('/:id', (req, res) => { //método GET por ID que lista apenas um registro
     appointmentsLoad();
     const appointment = appointmentsData.find(appointment => appointment.id === req.params.id);
     if (!appointment) return res.status(404).send('Nenhuma consulta encontrada com o ID informado.');
     res.json(appointment);
 });
+
+/**
+ * @swagger
+ * /appointments/{id}:
+ *   put:
+ *     summary: Atualiza uma consulta pelo ID
+ *     tags: [Appointment]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID da consulta
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Appointment'
+ *     responses:
+ *       200:
+ *         description: Consulta atualizada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Appointment'
+ *       404:
+ *         description: Nenhuma consulta encontrada com o ID informado
+ */
 
 router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um registro especificado por ID
     appointmentsLoad();
@@ -55,6 +134,27 @@ router.put('/:id', (req, res) => { //método PUT (Update) que atualiza um regist
     res.json({ message: 'Consulta atualizada com sucesso!', appointment: appointmentsData[index] });
 });
 
+/**
+ * @swagger
+ * /appointments:
+ *   post:
+ *     summary: Cria uma nova consulta
+ *     tags: [Appointment]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Appointment'
+ *     responses:
+ *       201:
+ *         description: Consulta adicionada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Appointment'
+ */
+
 router.post('/', (req, res) => { // método POST que cadastra um novo registro
     appointmentsLoad();
     const appointment = req.body;
@@ -64,6 +164,26 @@ router.post('/', (req, res) => { // método POST que cadastra um novo registro
     appointmentsWrite(appointmentsData);
     res.status(201).json({ message: 'Consulta adicionada com sucesso!', appointment: appointmentWithId });
 });
+
+/**
+ * @swagger
+ * /appointments/{id}:
+ *   delete:
+ *     summary: Remove uma consulta pelo ID
+ *     tags: [Appointment]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID da consulta
+ *     responses:
+ *       200:
+ *         description: Consulta removida com sucesso
+ *       404:
+ *         description: Nenhuma consulta encontrada com o ID informado
+ */
 
 router.delete('/:id', (req, res) => { // método DELETE que deleta um registro especificado por ID
     appointmentsLoad();

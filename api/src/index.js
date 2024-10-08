@@ -44,9 +44,8 @@ const options = {
 };
 const specs = swaggerJsDoc(options);
 
-app.use('/', routes)
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
-
+app.use('/', routes)
 
 const PORT = 8080;
 app.listen(PORT, () => console.log(`Rodando em http://localhost:${PORT}`));
