@@ -4,6 +4,27 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 let professionalsData = require('../db/professionals.json');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - name
+ *         - contact
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: ID gerado automaticamente para o profissional
+ *         name:
+ *           type: string
+ *           description: Nome do profissional
+ *         contact:
+ *           type: string
+ *           description: Contato do profissional
+ */
+
 function professionalsLoad() { //carrega os dados dos profissionais pelo arquivo JSON
     try {
         professionalsData = JSON.parse(fs.readFileSync('./src/db/professionals.json', 'utf8'));

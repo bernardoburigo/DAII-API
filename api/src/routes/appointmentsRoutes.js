@@ -4,6 +4,31 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 let appointmentsData = require('../db/appointments.json');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - date
+ *         - professional
+ *         - student
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: ID gerado automaticamente para a consulta
+ *         date:
+ *           type: string
+ *           description: Data da consulta
+ *         professional:
+ *           type: string
+ *           description: Profissional da consulta
+ *         student:
+ *           type: string
+ *           description: Estudante da consulta
+ */
+
 function appointmentsLoad() { //carrega os dados das consultas pelo arquivo JSON
     try {
         appointmentsData = JSON.parse(fs.readFileSync('./src/db/appointments.json', 'utf8'));

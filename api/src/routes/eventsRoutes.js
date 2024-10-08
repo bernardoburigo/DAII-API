@@ -4,6 +4,27 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 let eventsData = require('../db/events.json');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - date
+ *         - comments
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: ID gerado automaticamente para o evento
+ *         date:
+ *           type: string
+ *           description: Data do evento
+ *         comments:
+ *           type: string
+ *           description: Comentários do evento
+ */
+
 function eventsLoad() { //carrega os dados dos eventos pelo arquivo JSON
     try {
         eventsData = JSON.parse(fs.readFileSync('./src/db/events.json', 'utf8'));

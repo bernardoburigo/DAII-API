@@ -4,6 +4,27 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 let studentsData = require('../db/students.json');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - name
+ *         - age
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: ID gerado automaticamente para o estudante
+ *         name:
+ *           type: string
+ *           description: Nome do estudante
+ *         age:
+ *           type: string
+ *           description: Idade do estudante
+ */
+
 function studentsLoad() { //carrega os dados dos estudantes pelo arquivo JSON
     try {
         studentsData = JSON.parse(fs.readFileSync('./src/db/students.json', 'utf8'));

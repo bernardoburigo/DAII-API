@@ -4,6 +4,27 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 let usersData = require('../db/users.json');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - name
+ *         - email
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: ID gerado automaticamente para o usuário
+ *         name:
+ *           type: string
+ *           description: Nome do usuário
+ *         email:
+ *           type: string
+ *           description: Email do usuário
+ */
+
 function usersLoad() { //carrega os dados dos usuários pelo arquivo JSON
     try {
         usersData = JSON.parse(fs.readFileSync('./src/db/users.json', 'utf8'));
